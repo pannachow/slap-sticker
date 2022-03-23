@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "normalize.css/normalize.css";
 import { ThemeProvider } from "react-jss";
-import { HashRouter } from "react-router-dom";
+// we use hashrouter because browserrouter did not work on github pages
+import { HashRouter as Router } from "react-router-dom";
 
 import { theme } from "./theme";
 import App from "./App";
@@ -10,11 +11,11 @@ import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
-    <HashRouter>
+    <Router>
       <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
-    </HashRouter>
+    </Router>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -24,6 +24,7 @@ const useStyles = createUseStyles((theme) => ({
     "& img": {
       height: "64px",
     },
+    // button + button only adds a gap between the buttons and not around
     "& button + button": {
       marginLeft: "5px",
     },

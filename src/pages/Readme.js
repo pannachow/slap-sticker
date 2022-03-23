@@ -47,7 +47,7 @@ export default function Readme() {
         </ul>
       </section>
       <section>
-        <h3> quickstart</h3>
+        <h3>Quickstart</h3>
         <ul>
           <li>You can clone this repo to get started </li>
           <li>run `$ npm install` to install deps</li>
