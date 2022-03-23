@@ -1,8 +1,9 @@
 export const theme = {
   palette: {
-    primary: "#2F2E2C",
-    secondary: "#F8DE7E",
-    background: "#F8DE7E",
+    primary: "#2f2e2c",
+    secondary: "#f8de7e",
+    background: "#f8de7e",
     text: "#fff",
+    textSecondary: "#ccc",
   },
 };

@@ -5,22 +5,26 @@ import Readme from "./pages/Readme";
 import Home from "./pages/Home";
 
 const useStyles = createUseStyles((theme) => ({
+  "@global *": {
+    boxSizing: "border-box",
+  },
   "@global body": {
     background: theme.palette.background,
     color: theme.palette.text,
     fontFamily: "Poppins, sans-serif",
     fontSize: "18px",
   },
+  "@global a": {
+    color: "inherit",
+    textDecoration: "none",
+  },
   App: {
     padding: "20px",
     background: theme.palette.primary,
     maxWidth: "800px",
-    minHeight: "600px",
+    minHeight: "100vh",
     margin: "auto",
     boxShadow: `10px 0px 5px 5px ${theme.palette.primary}, -10px 0px 5px 5px ${theme.palette.primary}`,
-    "& a": {
-      color: theme.palette.text,
-    },
   },
 }));
 
@@ -31,6 +35,7 @@ function App(props) {
   return (
     <div className={classes.App}>
       <Header />
+      <hr />
       <Switch>
         {/* Main app route */}
         <Route path="/" exact>

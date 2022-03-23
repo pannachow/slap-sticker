@@ -6,53 +6,63 @@ import slap2 from "../assets/slap2.png";
 import slap3 from "../assets/slap3.png";
 
 const useStyles = createUseStyles((theme) => ({
-  Main: {
-    background: theme.palette.secondary,
-
+  Step: {
+    fontWeight: "bold",
+  },
+  Slapper: {
     "& canvas": {
-      marginTop: "10px",
-      marginBottom: "10px",
+      background: theme.palette.secondary,
       width: "100%",
       height: "auto",
+      borderRadius: "5px",
     },
     "& video": {
       display: "none",
     },
-
-    paddingTop: "10px",
   },
   Stickers: {
     "& img": {
       height: "64px",
     },
-    paddingBottom: "15px",
+    "& button + button": {
+      marginLeft: "5px",
+    },
+  },
+  StickerButton: {
+    backgroundColor: theme.palette.textSecondary,
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
+  StickerButtonActive: {
+    backgroundColor: theme.palette.text,
   },
   Gallery: {
     "& img": {
       height: "200px",
     },
-    paddingTop: "20px",
-    paddingBottom: "15px",
   },
   Pictures: {
     display: "flex",
     flexWrap: "wrap",
+    justifyContent: "space-evenly",
   },
   Picture: {
-    background: "black",
+    background: "#050505",
     position: "relative",
-    margin: 2,
+    borderRadius: "5px",
+    overflow: "hidden",
+    marginBottom: "10px",
     "& h3": {
-      padding: 8,
       textAlign: "center",
       width: "100%",
     },
-  },
-  Input: {
-    marginLeft: "8px",
-  },
-  StickerButton: {
-    marginLeft: "8px",
+    "& button": {
+      width: "100%",
+    },
+    "& button:hover": {
+      cursor: "pointer",
+    },
   },
 }));
 
@@ -62,7 +72,7 @@ const stickers = [slap, slap2, slap3].map((url) => {
   return { img, url };
 });
 
-// Ref: https://stackoverflow.com/a/15832662/1466456
+// ref: https://stackoverflow.com/a/15832662/1466456
 function downloadURI(uri, name) {
   const link = document.createElement("a");
   link.download = name;
@@ -75,7 +85,7 @@ function downloadURI(uri, name) {
 export default function Home(props) {
   const classes = useStyles(props);
   // currently active sticker
-  const [sticker, setSticker] = useState();
+  const [activeSticker, setActiveSticker] = useState(stickers[0]);
   // title for the picture that will be captured
   const [title, setTitle] = useState("SLAPPE!");
 
@@ -85,33 +95,40 @@ export default function Home(props) {
     handleCanvasRef, // callback function to set ref for main canvas element
     handleCapture, // callback function to trigger taking the picture
     pictures, // latest captured pictures data objects
-  ] = useWebcamCapture(sticker?.img, title);
+  ] = useWebcamCapture(activeSticker?.img, title);
 
   return (
     <main>
-      <section className={classes.Gallery}>
-        Step one: Give it a name
+      <section>
+        <p>
+          <span className={classes.Step}>Step 1:</span> Give it a name
+        </p>
         <input
           type="text"
           value={title}
           onChange={(ev) => setTitle(ev.target.value)}
-          className={classes.Input}
         />
       </section>
       <section className={classes.Stickers}>
-        Step 2: select your sticker...
+        <p>
+          <span className={classes.Step}>Step 2:</span> Select your sticker
+        </p>
         {stickers.map((sticker) => (
           <button
+            className={`${classes.StickerButton} ${
+              sticker === activeSticker ? classes.StickerButtonActive : ""
+            }`}
             key={sticker.url}
-            onClick={() => setSticker(sticker)}
-            className={classes.StickerButton}
+            onClick={() => setActiveSticker(sticker)}
           >
             <img src={sticker.url} alt="sticker" />
           </button>
         ))}
       </section>
-      <section className={classes.Main}>
-        Step three: Slap your self!
+      <section className={classes.Slapper}>
+        <p>
+          <span className={classes.Step}>Step 3:</span> Slap yourself!
+        </p>
         <video ref={handleVideoRef} />
         <canvas
           ref={handleCanvasRef}
@@ -121,14 +138,19 @@ export default function Home(props) {
         />
       </section>
       <section className={classes.Gallery}>
-        Step 4: Cherish this moment forever
+        <p>
+          <span className={classes.Step}>Step 4:</span> Cherish this moment
+          forever
+        </p>
         <div className={classes.Pictures}>
-          {pictures.map((picture) => (
-            <div key={picture.dataUri} className={classes.Picture}>
+          {pictures.map((picture, i) => (
+            <div key={i} className={classes.Picture}>
               <img src={picture.dataUri} alt="slapped sticker" />
               <h3>{picture.title}</h3>
               <button
-                onClick={() => downloadURI(picture.dataUri, "slapped.jpg")}
+                onClick={() =>
+                  downloadURI(picture.dataUri, `${picture.title}.jpg`)
+                }
               >
                 Download
               </button>
